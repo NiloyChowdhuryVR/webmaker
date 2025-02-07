@@ -4,22 +4,36 @@ import React, { useContext, useState } from 'react'
 import { Button } from '../ui/button';
 import { UserDetailContext } from '@/context/UserDetailContext';
 import SignInDialog from './SignInDialog';
+import { useMutation } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { useRouter } from 'next/navigation';
 
 const Hero = () => {
     const [userInput,setUserInput] = useState();
     const {messages,setMessages} = useContext(MessagesContext)
     const {userDetail,setUserDetail} = useContext(UserDetailContext);
+    const CreateWorkspace=useMutation(api.workspace.CreateWorkspace);
     const [openDialog,setOpenDialog] = useState(false);
+    const router = useRouter()
 
-    const onGenerate = (input) => {
+    const onGenerate =async (input) => {
         if(!userDetail?.name){
             setOpenDialog(true);
             return;
         }
-        setMessages({
-            role:'user',
-            content:input
+        
+        const msg={
+          role:'user',
+          content:input
+        }
+        setMessages(msg)
+
+        const workspaceId = await CreateWorkspace({
+          user:userDetail._id,
+          messages:[msg],
         })
+        router.push(`/workspace/${workspaceId}`);
+
     }
   return (<>
     <div>Hero</div>

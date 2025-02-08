@@ -62,6 +62,7 @@ export default config;
     "tailwindcss": "^3.4.1",
     autoprefixer: "^10.0.0",
     "uuid4": "^2.0.3",
+    "uuid": "^9.0.1",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "lucide-react": "^0.469.0",
